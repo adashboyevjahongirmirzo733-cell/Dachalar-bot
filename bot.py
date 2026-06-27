@@ -558,6 +558,13 @@ async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_
         return MAIN_MENU
 
 # ============================================================
+
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import ContextTypes
+
+# Diqqat: PAYMENT_LINK va CONFIRM_BOOKING o'zgaruvchilari 
+# kodingizning yuqori qismida aniqlangan bo'lishi kerak.
+
 async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -582,8 +589,14 @@ async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_
             "📸 *Chek rasmini yuboring:*\n\n"
             "_To'lov chekining rasmini shu yerga yuboring_",
             parse_mode="Markdown",
-            reply_markup=InlineKeyboardMarkup(
-                InlineKeyboardButton("🔙") 
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔙 Orqaga", callback_data="confirm_booking")]
+            ])
+        )
+        # Agar bu yerda foydalanuvchidan rasm (photo) kutayotgan bo'lsangiz,
+        # yangi stateni qaytarishingiz kerak bo'lishi mumkin, masalan:
+        # return WAIT_FOR_RECEIPT
+
     
 # ============================================================
 async def upload_receipt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
