@@ -583,7 +583,8 @@ async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_
             "_To'lov chekining rasmini shu yerga yuboring_",
             parse_mode="Markdown",
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("🔙 
+                InlineKeyboardButton("🔙"
+    
 # ============================================================
 async def upload_receipt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message.photo:
