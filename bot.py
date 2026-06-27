@@ -520,6 +520,43 @@ async def enter_phone_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
 
 # ============================================================
 # CONFIRM BOOKING
+async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    data = query.data
+
+    if data == "confirm_booking":
+        await query.edit_message_text(
+            f"💳 *Avans to'lovini amalga oshirish*\n\n"
+            f"💰 Avans miqdori: *{context.user_data['advance']:,} so'm*\n\n"
+            f"👇 To'lov uchun karta raqami (nusxa olish uchun ustiga bosing):\n"
+            f"`{CARD_NUMBER}`\n"
+            f"👤 Karta egasi: *{CARD_NAME}*\n\n"
+            f"To'lovni amalga oshirgach, quyidagi tugma orqali chek rasmini yuboring:",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("📸 Chek rasmini yuborish", callback_data="send_receipt")],
+                [InlineKeyboardButton("❌ Bekor qilish", callback_data="cancel_booking")]
+            ])
+        )
+        return CONFIRM_BOOKING
+
+    elif data == "send_receipt":
+        await query.edit_message_text(
+            "📸 *Chek rasmini yuboring:*\n\n"
+            "_To'lov chekining rasmini shu yerga yuboring_",
+            parse_mode="Markdown"
+        )
+        return UPLOAD_RECEIPT
+
+    elif data == "cancel_booking":
+        context.user_data.clear()
+        await query.edit_message_text(
+            "❌ Bron bekor qilindi.\n\n🏡 Asosiy menyuga qaytdingiz.",
+            reply_markup=main_menu_keyboard()
+        )
+        return MAIN_MENU
+
 # ============================================================
 async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -546,22 +583,7 @@ async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_
             "_To'lov chekining rasmini shu yerga yuboring_",
             parse_mode="Markdown",
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("🔙 Orqaga", callback_data="confirm_booking")
-            ]])
-        )
-        return UPLOAD_RECEIPT
-
-    elif data == "cancel_booking":
-        context.user_data.clear()
-        await query.edit_message_text(
-            "❌ Bron bekor qilindi.\n\n🏡 Asosiy menyuga qaytdingiz.",
-            reply_markup=main_menu_keyboard()
-        )
-        return MAIN_MENU
-
-
-# ============================================================
-# UPLOAD RECEIPT
+                InlineKeyboardButton("🔙 
 # ============================================================
 async def upload_receipt_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message.photo:
