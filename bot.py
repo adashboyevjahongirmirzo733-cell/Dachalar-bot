@@ -582,7 +582,7 @@ async def confirm_booking_handler(update: Update, context: ContextTypes.DEFAULT_
             "📸 *Chek rasmini yuboring:*\n\n"
             "_To'lov chekining rasmini shu yerga yuboring_",
             parse_mode="Markdown",
-            reply_markup=InlineKeyboardMarkup([[
+            reply_markup=InlineKeyboardMarkup(
                 InlineKeyboardButton("🔙") 
     
 # ============================================================
